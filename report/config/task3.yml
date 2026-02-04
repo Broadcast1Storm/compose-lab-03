@@ -1,0 +1,30 @@
+name: task3-override
+services:
+  app:
+    command:
+      - sh
+      - -c
+      - pip install flask && python app.py --debug
+    environment:
+      MODE: dev
+    image: python:3.12-slim
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 7000
+        published: "7000"
+        protocol: tcp
+      - mode: ingress
+        target: 7000
+        published: "7001"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /home/palyha/lab08/task3-override/app
+        target: /app
+        bind: {}
+    working_dir: /app
+networks:
+  default:
+    name: task3-override_default

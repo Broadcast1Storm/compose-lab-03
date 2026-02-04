@@ -1,0 +1,7 @@
+services:
+  app:
+    environment:
+      MODE: "dev"
+    command: sh -c "pip install flask && python app.py --debug"
+    ports:
+      - "7001:7000"

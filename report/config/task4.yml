@@ -1,0 +1,43 @@
+name: task4-combo
+services:
+  app:
+    build:
+      context: /home/palyha/lab08/task4-combo/app
+      dockerfile: Dockerfile
+    command:
+      - python
+      - app.py
+    depends_on:
+      db:
+        condition: service_started
+        required: true
+    environment:
+      LOG: debug
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8000
+        published: "8000"
+        protocol: tcp
+      - mode: ingress
+        target: 8000
+        published: "8001"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /home/palyha/lab08/task4-combo/app
+        target: /app
+        bind: {}
+    working_dir: /app
+  db:
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_USER: demo
+    image: postgres:16
+    networks:
+      default: null
+networks:
+  default:
+    name: task4-combo_default
